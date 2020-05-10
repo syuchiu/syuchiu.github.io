@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Next主题bug修复这篇是结合本人所发现的2处bug以及自行查找验证的修复方式总结。 1⃣️导航栏archive处跳转404问题 这个问题是默认将你的博客主题目录下的 12345678910menu:  home: &#x2F;|| home  about: &#x2F;about&#x2F;|| user  tags: &#x2F;tags&#x2F; || tags  categories: &#x2F;categories&#x2F; || th  arch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Next主题bug修复">
+<meta property="og:url" content="http://yoursite.com/2020/05/10/Next%E4%B8%BB%E9%A2%98bug%E4%BF%AE%E5%A4%8D/index.html">
+<meta property="og:site_name" content="ZHIYU&#39;s Blog">
+<meta property="og:description" content="Next主题bug修复这篇是结合本人所发现的2处bug以及自行查找验证的修复方式总结。 1⃣️导航栏archive处跳转404问题 这个问题是默认将你的博客主题目录下的 12345678910menu:  home: &#x2F;|| home  about: &#x2F;about&#x2F;|| user  tags: &#x2F;tags&#x2F; || tags  categories: &#x2F;categories&#x2F; || th  arch">
+<meta property="article:published_time" content="2020-05-10T07:28:43.000Z">
+<meta property="article:modified_time" content="2020-05-10T07:28:43.899Z">
+<meta property="article:author" content="ZHIYU">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/10/Next主题bug修复/"/>
+
+
+
+
+
+  <title>Next主题bug修复 | ZHIYU's Blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-165401353-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZHIYU's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">专注出海日本的互联网人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-something">
+          <a href="/something/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            实绩
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/10/Next%E4%B8%BB%E9%A2%98bug%E4%BF%AE%E5%A4%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ZHIYU">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZHIYU's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Next主题bug修复</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-10T15:28:43+08:00">
+                2020-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Next主题bug修复"><a href="#Next主题bug修复" class="headerlink" title="Next主题bug修复"></a>Next主题bug修复</h1><p>这篇是结合本人所发现的2处bug以及自行查找验证的修复方式总结。</p>
+<p>1⃣️导航栏archive处跳转404问题</p>
+<p>这个问题是默认将你的博客主题目录下的</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/||</span> <span class="string">home</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/about/||</span> <span class="string">user</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags/</span> <span class="string">||</span> <span class="string">tags</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/</span> <span class="string">||</span> <span class="string">th</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives/</span> <span class="string">||</span> <span class="string">archive</span></span><br><span class="line">  <span class="attr">Friends:</span> <span class="string">/Friends/||</span> <span class="string">heartbeat</span></span><br><span class="line">  <span class="comment">#schedule: /schedule/ || calendar</span></span><br><span class="line">  <span class="comment">#sitemap: /sitemap.xml || sitemap</span></span><br><span class="line">  <span class="comment">#commonweal: /404/ || heartbeat</span></span><br></pre></td></tr></table></figure>
+
+<p>这其中的 <code>||</code>给转义了。想要删掉这个转义可以去到 <code>themes/next/layout/_partials/sidebar</code>里面的 <code>site-overview.swig</code>，将所有的这种东西：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% <span class="keyword">if</span> theme.menu.archives %&#125;</span><br><span class="line">&lt;a href=<span class="string">"&#123;&#123; url_for(theme.menu.archives).split('||')[0] | trim &#125;&#125;"</span>&gt;</span><br><span class="line">&#123;% <span class="keyword">else</span> %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>给删掉，注意要把所有匹配的 if 和 else 都删掉，不然会编译错误。</p>
+<p>然后因为我知道大家都是伸手党我也是所以我就把改好的代码放到这里了。有兴趣的朋友可以研究一下我改了哪里。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;site-author motion-element&quot; itemprop&#x3D;&quot;author&quot; itemscope itemtype&#x3D;&quot;http:&#x2F;&#x2F;schema.org&#x2F;Person&quot;&gt;</span><br><span class="line">  &#123;% if theme.avatar.url %&#125;</span><br><span class="line">    &lt;img class&#x3D;&quot;site-author-image&quot; itemprop&#x3D;&quot;image&quot;</span><br><span class="line">      src&#x3D;&quot;&#123;&#123; url_for( theme.avatar.url | default(theme.images + &#39;&#x2F;avatar.gif&#39;) ) &#125;&#125;&quot;</span><br><span class="line">      alt&#x3D;&quot;&#123;&#123; author &#125;&#125;&quot;&#x2F;&gt;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &lt;p class&#x3D;&quot;site-author-name&quot; itemprop&#x3D;&quot;name&quot;&gt;&#123;&#123; author &#125;&#125;&lt;&#x2F;p&gt;</span><br><span class="line">  &lt;div class&#x3D;&quot;site-description motion-element&quot; itemprop&#x3D;&quot;description&quot;&gt;&#123;&#123; description &#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&#123;% if theme.site_state %&#125;</span><br><span class="line">  &lt;nav class&#x3D;&quot;site-state motion-element&quot;&gt;</span><br><span class="line">    &#123;% if config.archive_dir !&#x3D; &#39;&#x2F;&#39; and site.posts.length &gt; 0 %&#125;</span><br><span class="line">      &lt;div class&#x3D;&quot;site-state-item site-state-posts&quot;&gt;</span><br><span class="line">          &lt;a href&#x3D;&quot;&#123;&#123; url_for(config.archive_dir) &#125;&#125;&quot;&gt;</span><br><span class="line">          &lt;span class&#x3D;&quot;site-state-item-count&quot;&gt;&#123;&#123; site.posts.length &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">          &lt;span class&#x3D;&quot;site-state-item-name&quot;&gt;&#123;&#123; __(&#39;state.posts&#39;) &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;&#x2F;a&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">    &#123;% if site.categories.length &gt; 0 %&#125;</span><br><span class="line">      &#123;% set categoriesPageQuery &#x3D; site.pages.find(&#123;type: &#39;categories&#39;&#125;, &#123;lean: true&#125;) %&#125;</span><br><span class="line">      &#123;% set hasCategoriesPage &#x3D; categoriesPageQuery.length &gt; 0 %&#125;</span><br><span class="line">      &lt;div class&#x3D;&quot;site-state-item site-state-categories&quot;&gt;</span><br><span class="line">        &#123;% if hasCategoriesPage %&#125;</span><br><span class="line">            &lt;a href&#x3D;&quot;&#123;&#123; url_for(config.category_dir) + &#39;&#x2F;&#39; &#125;&#125;&quot;&gt;</span><br><span class="line">        &#123;% endif %&#125;</span><br><span class="line">        &#123;% set visibleCategories &#x3D; 0 %&#125;</span><br><span class="line">        &#123;% for cat in site.categories %&#125;</span><br><span class="line">          &#123;% if cat.length %&#125;&#123;% set visibleCategories +&#x3D; 1 %&#125;&#123;% endif %&#125;</span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">        &lt;span class&#x3D;&quot;site-state-item-count&quot;&gt;&#123;&#123; visibleCategories &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;span class&#x3D;&quot;site-state-item-name&quot;&gt;&#123;&#123; __(&#39;state.categories&#39;) &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &#123;% if hasCategoriesPage %&#125;&lt;&#x2F;a&gt;&#123;% endif %&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">    </span><br><span class="line">    &#123;% if site.tags.length &gt; 0 %&#125;</span><br><span class="line">      &#123;% set tagsPageQuery &#x3D; site.pages.find(&#123;type: &#39;tags&#39;&#125;, &#123;lean: true&#125;) %&#125;</span><br><span class="line">      &#123;% set hasTagsPage &#x3D; tagsPageQuery.length &gt; 0 %&#125;</span><br><span class="line">      &lt;div class&#x3D;&quot;site-state-item site-state-tags&quot;&gt;</span><br><span class="line">        &#123;% if hasTagsPage %&#125;</span><br><span class="line">            &lt;a href&#x3D;&quot;&#123;&#123; url_for(config.tag_dir) + &#39;&#x2F;&#39; &#125;&#125;&quot;&gt;</span><br><span class="line">        &#123;% endif %&#125;</span><br><span class="line">        &#123;% set visibleTags &#x3D; 0 %&#125;</span><br><span class="line">        &#123;% for tag in site.tags %&#125;</span><br><span class="line">          &#123;% if tag.length %&#125;&#123;% set visibleTags +&#x3D; 1 %&#125;&#123;% endif %&#125;</span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">        &lt;span class&#x3D;&quot;site-state-item-count&quot;&gt;&#123;&#123; visibleTags &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;span class&#x3D;&quot;site-state-item-name&quot;&gt;&#123;&#123; __(&#39;state.tags&#39;) &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &#123;% if hasTagsPage %&#125;&lt;&#x2F;a&gt;&#123;% endif %&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">  &lt;&#x2F;nav&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% if theme.rss %&#125;</span><br><span class="line">  &lt;div class&#x3D;&quot;feed-link motion-element&quot;&gt;</span><br><span class="line">    &lt;a href&#x3D;&quot;&#123;&#123; url_for(theme.rss) &#125;&#125;&quot; rel&#x3D;&quot;alternate&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;fa fa-rss&quot;&gt;&lt;&#x2F;i&gt;RSS</span><br><span class="line">    &lt;&#x2F;a&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% if theme.chat.enable and theme.chat.service !&#x3D;&#x3D; &#39;&#39; %&#125;</span><br><span class="line">  &lt;div class&#x3D;&quot;chat motion-element&quot;&gt;</span><br><span class="line">  &#123;% if theme.chat.service &#x3D;&#x3D; &#39;chatra&#39; and theme.chatra.enable %&#125;</span><br><span class="line">    &lt;a οnclick&#x3D;&quot;Chatra(&#39;openChat&#39;, true)&quot;&gt;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &#123;% if theme.chat.service &#x3D;&#x3D; &#39;tidio&#39; and theme.tidio.enable %&#125;</span><br><span class="line">    &lt;a οnclick&#x3D;&quot;tidioChatApi.open();&quot;&gt;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &#123;% if theme.chat.icon %&#125;&lt;i class&#x3D;&quot;fa fa-&#123;&#123; theme.chat.icon &#125;&#125;&quot;&gt;&lt;&#x2F;i&gt;&#123;% endif %&#125;</span><br><span class="line">    &#123;&#123; theme.chat.text &#125;&#125;</span><br><span class="line">  &lt;&#x2F;a&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% if theme.social %&#125;</span><br><span class="line">  &lt;div class&#x3D;&quot;links-of-author motion-element&quot;&gt;</span><br><span class="line">    &#123;% for name, link in theme.social %&#125;</span><br><span class="line">      &lt;span class&#x3D;&quot;links-of-author-item&quot;&gt;</span><br><span class="line">      &#123;% set sidebarURL &#x3D; link.split(&#39;||&#39;)[0] | trim %&#125;</span><br><span class="line">      &#123;% if not (theme.social_icons.enable) or (not theme.social_icons.icons_only) %&#125;</span><br><span class="line">        &#123;% set sidebarText &#x3D; name %&#125;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">      &#123;% if theme.social_icons.enable %&#125;</span><br><span class="line">        &#123;% set sidebarIcon &#x3D; &#39;&lt;i class&#x3D;&quot;fa fa-fw fa-&#39; + link.split(&#39;||&#39;)[1] | trim | default(&#39;globe&#39;) + &#39;&quot;&gt;&lt;&#x2F;i&gt;&#39; %&#125;</span><br><span class="line">      &#123;% endif %&#125;</span><br><span class="line">        &#123;&#123; next_url(sidebarURL, sidebarIcon + sidebarText, &#123;title: name + &#39; &amp;rarr; &#39; + sidebarURL&#125;) &#125;&#125;</span><br><span class="line">      &lt;&#x2F;span&gt;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% if theme.creative_commons.license and theme.creative_commons.sidebar %&#125;</span><br><span class="line">  &lt;div class&#x3D;&quot;cc-license motion-element&quot; itemprop&#x3D;&quot;license&quot;&gt;</span><br><span class="line">  &#123;% set ccLanguage &#x3D; theme.creative_commons.language %&#125;</span><br><span class="line">  &#123;% if theme.creative_commons.license &#x3D;&#x3D;&#x3D; &#39;zero&#39; %&#125;</span><br><span class="line">    &#123;% set ccType &#x3D; &#39;publicdomain&#x2F;zero&#x2F;1.0&#x2F;&#39; + ccLanguage %&#125;</span><br><span class="line">  &#123;% else %&#125;</span><br><span class="line">    &#123;% set ccType &#x3D; &#39;licenses&#x2F;&#39; + theme.creative_commons.license + &#39;&#x2F;4.0&#x2F;&#39; + ccLanguage %&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &#123;% set ccURL &#x3D; &#39;https:&#x2F;&#x2F;creativecommons.org&#x2F;&#39; + ccType %&#125;</span><br><span class="line">  &#123;% set ccImage &#x3D; &#39;&lt;img src&#x3D;&quot;&#39; + url_for(theme.images + &#39;&#x2F;cc-&#39; + theme.creative_commons.license + &#39;.svg&#39;) + &#39;&quot; alt&#x3D;&quot;Creative Commons&quot;&#x2F;&gt;&#39; %&#125;</span><br><span class="line">    &#123;&#123; next_url(ccURL, ccImage, &#123;class: &#39;cc-opacity&#39;&#125;) &#125;&#125;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;# Blogroll #&#125;</span><br><span class="line">&#123;% if theme.links %&#125;</span><br><span class="line">  &lt;div class&#x3D;&quot;links-of-blogroll motion-element &#123;&#123; &quot;links-of-blogroll-&quot; + theme.links_layout | default(&#39;inline&#39;) &#125;&#125;&quot;&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;links-of-blogroll-title&quot;&gt;</span><br><span class="line">      &lt;i class&#x3D;&quot;fa  fa-fw fa-&#123;&#123; theme.links_icon | default(&#39;globe&#39;) | lower &#125;&#125;&quot;&gt;&lt;&#x2F;i&gt;</span><br><span class="line">      &#123;&#123; theme.links_title &#125;&#125;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;ul class&#x3D;&quot;links-of-blogroll-list&quot;&gt;</span><br><span class="line">      &#123;% for blogrollText, blogrollURL in theme.links %&#125;</span><br><span class="line">        &lt;li class&#x3D;&quot;links-of-blogroll-item&quot;&gt;</span><br><span class="line">          &#123;&#123; next_url(blogrollURL, blogrollText, &#123;title: blogrollURL&#125;) &#125;&#125;</span><br><span class="line">        &lt;&#x2F;li&gt;</span><br><span class="line">      &#123;% endfor %&#125;</span><br><span class="line">    &lt;&#x2F;ul&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一种办法比较简单，也可以直接把menu_icon关闭就可以了。</p>
+<p>这个感觉不是很影响我也不去改动它了。</p>
+<p>2⃣️archive类目下翻页的html裸露</p>
+<p>日志如果多了会有分页，左右按钮的源码裸露了。</p>
+<p><i class="fa fa-angle-right"></i> 就是这个东西…<br>这是一个Font Awesome的字体图标，按道理来说这个图标应该可以正常显示的，现在这个图标不能显示了显示成了html源码。</p>
+<p>解决办法:<br>最简单的办法就是将<i class="fa fa-angle-right"></i>这个不能正常显示的字体图标改成一般的字符，我这里就是改成正常的一般左右键字符“&gt;”，“&lt;”。<br>在 themes\hexo-theme-next\layout_partials 下找到hexo-theme-next的翻页组件，就是pagination.swig<br>将</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if page.prev or page.next %&#125;</span><br><span class="line"></span><br><span class="line">  &lt;nav class&#x3D;&quot;pagination&quot;&gt;</span><br><span class="line">    &#123;&#123;</span><br><span class="line">      paginator(&#123;</span><br><span class="line">        prev_text: &#39;&lt;i class&#x3D;&quot;fa fa-angle-left&quot;&gt;&lt;&#x2F;i&gt;&#39;,</span><br><span class="line">        next_text: &#39;&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;&#39;,</span><br><span class="line">        mid_size: 1</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  &lt;&#x2F;nav&gt;</span><br><span class="line"></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if page.prev or page.next %&#125;</span><br><span class="line"></span><br><span class="line">  &lt;nav class&#x3D;&quot;pagination&quot;&gt;</span><br><span class="line">    &#123;&#123;</span><br><span class="line">      paginator(&#123;</span><br><span class="line">        prev_text: &#39;&lt;&#39;,</span><br><span class="line">        next_text: &#39;&gt;&#39;,</span><br><span class="line">        mid_size: 1</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  &lt;&#x2F;nav&gt;</span><br><span class="line"></span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>重新发布以后可以看到翻页按钮可以正常显示了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/09/%E5%B9%BF%E5%91%8A%E4%B8%BB%E7%9A%84%E8%A7%92%E5%BA%A6%E6%9D%A5%E7%9C%8BYouTuber%E7%9A%84%E5%8F%98%E7%8E%B0/" rel="next" title="广告主的角度来看YouTuber的变现">
+                <i class="fa fa-chevron-left"></i> 广告主的角度来看YouTuber的变现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ZHIYU</p>
+              <p class="site-description motion-element" itemprop="description">有猫就会有热情</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/syuchiu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:syuchiu@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/syuchiuhttp://localhost:4000" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Next主题bug修复"><span class="nav-number">1.</span> <span class="nav-text">Next主题bug修复</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZHIYU</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
